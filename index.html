@@ -69,10 +69,24 @@
 
     function playBuffer(buffer) {
       source = audioContext.createBufferSource();
-      source.buffer = buffer;
+
+      // Create a reversed buffer
+      var reversedBuffer = audioContext.createBuffer(buffer.numberOfChannels, buffer.length, buffer.sampleRate);
+
+      for (var channel = 0; channel < buffer.numberOfChannels; channel++) {
+        var channelData = buffer.getChannelData(channel);
+        var reversedChannelData = reversedBuffer.getChannelData(channel);
+
+        for (var i = 0; i < channelData.length; i++) {
+          reversedChannelData[i] = channelData[channelData.length - i - 1];
+        }
+      }
+
+      source.buffer = reversedBuffer;
+
       source.connect(audioContext.destination);
-      source.playbackRate.value = -1;
-      source.start(0, buffer.duration);
+
+      source.start(0);
     }
   </script>
 </body>

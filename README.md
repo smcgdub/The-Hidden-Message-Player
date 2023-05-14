@@ -666,9 +666,112 @@ It’s possible that the code needs to be adjusted to work properly in your spec
 <hr>
 
 <strong>Prompt 9:</strong><br>
+Can you look at the code again, I am dropping an mp3 into the drop zone but I can’t hear the audio file play in reverse.
 
+<strong>Response 9:</strong><br>
+I apologize for any confusion. Here is an updated version of the code that should play an audio file in reverse when it is dropped onto the drop zone:
 
+```html
+<!DOCTYPE html>
+<html>
 
+<head>
+  <title>Reverse Audio Player</title>
+  <style>
+    #dropZone {
+      border: 2px dashed #bbb;
+      border-radius: 5px;
+      padding: 25px;
+      text-align: center;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Reverse Audio Player</h1>
+  <div id="dropZone">Drop audio file here</div>
+
+  <script>
+    var dropZone = document.getElementById("dropZone");
+
+    var audioContext = new AudioContext();
+    var source;
+    var buffer;
+
+    dropZone.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "#eee";
+    });
+
+    dropZone.addEventListener("dragleave", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "";
+    });
+
+    dropZone.addEventListener("drop", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "";
+
+      if (source) {
+        source.stop();
+      }
+
+      var file = e.dataTransfer.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        audioContext.decodeAudioData(e.target.result, function (decodedData) {
+          buffer = decodedData;
+          playBuffer(buffer);
+        });
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+
+    document.addEventListener("dragover", function (e) {
+      e.preventDefault();
+    });
+
+    document.addEventListener("drop", function (e) {
+      e.preventDefault();
+    });
+
+    function playBuffer(buffer) {
+      source = audioContext.createBufferSource();
+
+      // Create a reversed buffer
+      var reversedBuffer = audioContext.createBuffer(buffer.numberOfChannels, buffer.length, buffer.sampleRate);
+
+      for (var channel = 0; channel < buffer.numberOfChannels; channel++) {
+        var channelData = buffer.getChannelData(channel);
+        var reversedChannelData = reversedBuffer.getChannelData(channel);
+
+        for (var i = 0; i < channelData.length; i++) {
+          reversedChannelData[i] = channelData[channelData.length - i - 1];
+        }
+      }
+
+      source.buffer = reversedBuffer;
+
+      source.connect(audioContext.destination);
+
+      source.start(0);
+    }
+  </script>
+</body>
+
+</html>
+```
+
+In this version of the code, the `playBuffer()` function has been updated to create a new `AudioBuffer` object that contains the reversed audio data. This is done by iterating over each channel of the original `AudioBuffer` object and copying its data into a new `Float32Array` in reverse order. The new `Float32Array` is then set as the channel data for the corresponding channel in the new `AudioBuffer` object. The new `AudioBuffer` object is then assigned to the `buffer` property of the `BufferSourceNode` and played as before.
+
+Please let me know if this version of the code works for you.
+<strong>9 of </strong>
 
 
 

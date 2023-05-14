@@ -429,8 +429,87 @@ Sure! You can prevent the default behaviour of opening a new tab when a file is 
 ```
 
 In this example, an event listener for the `dragover` event is added to the `document` object. When a file is dragged over any part of the page, including outside of the drop zone, the `dragover` event is triggered and the `preventDefault()` method is called on the event object to prevent the default behaviour of opening a new tab.
-Is this what you were looking for?
 
+Is this what you were looking for?
+<strong>3 of </strong>
+
+
+<strong>Prompt 4:</strong><br>
+That didn’t work, if I drag an audio file onto the page outside of the `dropZone` a new tab will open in my browser and start playing the song. Disable this from happening
+
+<strong>Response 4:</strong><br>
+I apologize for the confusion. To prevent the default behaviour of opening a new tab when a file is dropped outside of the drop zone, you need to add an event listener for the `dragover` and `drop` events on the `document` object and call the `preventDefault()` method on the event object. Here’s an example of how you can do this:
+
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Audio Player</title>
+  <style>
+    #dropZone {
+      border: 2px dashed #bbb;
+      border-radius: 5px;
+      padding: 25px;
+      text-align: center;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Audio Player</h1>
+  <div id="dropZone">Drop audio file here</div>
+  <br />
+  <audio id="audioPlayer" controls></audio>
+
+  <script>
+    var dropZone = document.getElementById("dropZone");
+    var audioPlayer = document.getElementById("audioPlayer");
+
+    dropZone.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "#eee";
+    });
+
+    dropZone.addEventListener("dragleave", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "";
+    });
+
+    dropZone.addEventListener("drop", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "";
+
+      var file = e.dataTransfer.files[0];
+      audioPlayer.src = URL.createObjectURL(file);
+      audioPlayer.play();
+    });
+
+    document.addEventListener("dragover", function (e) {
+      e.preventDefault();
+    });
+
+    document.addEventListener("drop", function (e) {
+      e.preventDefault();
+    });
+  </script>
+</body>
+
+</html>
+
+```
+
+In this example, event listeners for the `dragover` and `drop` events are added to the `document` object. When a file is dragged over any part of the page, including outside of the drop zone, the dragover event is triggered and the `preventDefault()` method is called on the event object to prevent the default behaviour of opening a new tab. 
+
+Similarly, when a file is dropped outside of the drop zone, the `drop` event is triggered and the `preventDefault()` method is called on the event object to prevent the default behaviour.
+
+Is this what you were looking for?<br>
+<strong>4 of </strong>
 
 </details>
 <hr>

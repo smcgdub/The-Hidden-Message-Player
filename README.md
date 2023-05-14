@@ -299,6 +299,8 @@ This code creates an input element that allows the user to select an audio file 
 Is this what you were looking for?<br>
 <strong>1 of</strong> 
 
+<hr>
+
 <strong>Prompt 2:</strong><br>
 Can you create a drop zone located above the input. I want it to tell the user to drop their audio file / song into this box for the song to play
 
@@ -363,6 +365,8 @@ This code creates a `div` element with the id `dropZone` that serves as the drop
 
 ![](/images/prompt_2.png)
 <strong>2 of</strong>
+
+<hr>
 
 <strong>Prompt 3:</strong><br>
 If the user drags a song/audio file outside of the dropZone area then a new tab opens on the browser and the song starts playing there. I want you to add some code so this doesn’t happen. If the user drags and drops a file outside of the dropZone I want nothing to happen. Can you add this functionality to the code
@@ -433,13 +437,13 @@ In this example, an event listener for the `dragover` event is added to the `doc
 Is this what you were looking for?
 <strong>3 of </strong>
 
+<hr>
 
 <strong>Prompt 4:</strong><br>
 That didn’t work, if I drag an audio file onto the page outside of the `dropZone` a new tab will open in my browser and start playing the song. Disable this from happening
 
 <strong>Response 4:</strong><br>
 I apologize for the confusion. To prevent the default behaviour of opening a new tab when a file is dropped outside of the drop zone, you need to add an event listener for the `dragover` and `drop` events on the `document` object and call the `preventDefault()` method on the event object. Here’s an example of how you can do this:
-
 
 ```html
 <!DOCTYPE html>
@@ -511,6 +515,8 @@ Similarly, when a file is dropped outside of the drop zone, the `drop` event is 
 Is this what you were looking for?<br>
 <strong>4 of </strong>
 
+<hr>
+
 <strong>Prompt 5:</strong><br>
 Are you familiar with how a record player works when the record is played in reverse?
 
@@ -532,6 +538,7 @@ Learn more:
 Is there anything else you would like to know?<br>
 <strong>5 of </strong>
 
+<hr>
 
 <strong>Prompt 6:</strong><br>
 Can you adjust the code so our audio player does the same? I want the song to play in reverse when the user uploads a song.
@@ -632,6 +639,8 @@ The `ArrayBuffer` is then passed to the `decodeAudioData()` method of the `Audio
 Is this what you were looking for?
 <strong>6 of </strong>
 
+<hr>
+
 <strong>Prompt 7:</strong><br>
 I tried to drag an audio file into the `dropZone` but nothing happened? I could not hear the song play?
 
@@ -642,12 +651,21 @@ I’m sorry to hear that the code didn’t work for you. There could be several 
 2.	Make sure that the audio file you are trying to play is in a format that is supported by your browser. You can check which audio formats are supported by your browser by visiting [HTML5Test](https://html5test.com/) and looking under the “Audio” section.
 3.	Check the developer console in your browser for any error messages. To open the developer console, right-click on the page and select “Inspect” (or “Inspect Element” in some browsers), then click on the “Console” tab.
 
-
-If you’re still having trouble, please let me know and I’ll do my best to help you troubleshoot the issue.
+If you’re still having trouble, please let me know and I’ll do my best to help you troubleshoot the issue.<br>
 <strong>7 of </strong>
 
+<hr>
 
+<strong>Prompt 8:</strong><br>
+I think it’s the code that needs adjusting.
 
+<strong>Response 8:</strong><br>
+It’s possible that the code needs to be adjusted to work properly in your specific environment. Could you please provide more information about the issue you’re experiencing? Are there any error messages in the developer console? What browser and operating system are you using? This information will help me better understand the issue and provide a more accurate solution.
+<strong>8 of </strong>
+
+<hr>
+
+<strong>Prompt 9:</strong><br>
 
 
 

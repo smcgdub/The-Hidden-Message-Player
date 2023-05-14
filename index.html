@@ -21,15 +21,8 @@
       font-size: 20px;
     }
 
-    #uploadButton {
-      display: none;
-    }
-
-    @media (hover: none) {
-      #uploadButton {
-        display: block;
-        margin-top: 10px;
-      }
+    #fileInput {
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -37,7 +30,7 @@
 <body>
   <h1>Reverse Audio Player</h1>
   <div id="dropZone">Drop audio file here</div>
-  <input type="file" id="uploadButton" accept="audio/*" />
+  <input type="file" id="fileInput" accept="audio/*" />
   <br />
   <button id="playButton" disabled>Play</button>
   <button id="pauseButton" disabled>Pause</button>
@@ -46,7 +39,7 @@
     var dropZone = document.getElementById("dropZone");
     var playButton = document.getElementById("playButton");
     var pauseButton = document.getElementById("pauseButton");
-    var uploadButton = document.getElementById("uploadButton");
+    var fileInput = document.getElementById("fileInput");
 
     var audioContext = new AudioContext();
     var source;
@@ -82,7 +75,7 @@
       handleFile(file);
     });
 
-    uploadButton.addEventListener("change", function (e) {
+    fileInput.addEventListener("change", function (e) {
       if (source) {
         source.stop();
         source = null;

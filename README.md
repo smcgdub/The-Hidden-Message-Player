@@ -1065,8 +1065,192 @@ When the `playButton` is clicked and playback is resumed, the `playBuffer()` fun
 Please let me know if this version of the code meets your needs.<br>
 <strong>11 of </strong>
 
+<hr>
+
+<strong>Prompt 12:</strong><br>
+I want you to adjust the CSS. I want all elements centred on the page both horizontally and vertically. I want this to be dynamic and i want all elements to stay centred on the page regardless of the screen size. This is for users who may be using a mobile device. Also I want you to create an upload button for mobile users who don’t have the drag and drop functionality. I want mobile users to be able to click on the upload button and be able to upload any audio file from their device. Place the upload button directly under the drop zone.
+
+<strong>Response 12:</strong><br>
+Sure! Here’s the updated code with the changes you requested:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reverse Audio Player</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      #dropZone {
+        border: 2px dashed #bbb;
+        border-radius: 5px;
+        padding: 25px;
+        text-align: center;
+        font-size: 20px;
+      }
+      #uploadButton {
+        display: none;
+      }
+      @media (hover: none) {
+        #uploadButton {
+          display: block;
+          margin-top: 10px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Reverse Audio Player</h1>
+    <div id="dropZone">Drop audio file here</div>
+    <input type="file" id="uploadButton" accept="audio/*" />
+    <br />
+    <button id="playButton" disabled>Play</button>
+    <button id="pauseButton" disabled>Pause</button>
+
+    <script>
+      var dropZone = document.getElementById("dropZone");
+      var playButton = document.getElementById("playButton");
+      var pauseButton = document.getElementById("pauseButton");
+      var uploadButton = document.getElementById("uploadButton");
+
+      var audioContext = new AudioContext();
+      var source;
+      var buffer;
+      var startTime;
+      var pauseTime;
+
+      dropZone.addEventListener("dragover", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.style.background = "#eee";
+      });
+
+      dropZone.addEventListener("dragleave", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.style.background = "";
+      });
+
+      dropZone.addEventListener("drop", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.style.background = "";
+
+        if (source) {
+          source.stop();
+          source = null;
+          startTime = null;
+          pauseTime = null;
+        }
+
+        var file = e.dataTransfer.files[0];
+        handleFile(file);
+      });
+
+      uploadButton.addEventListener("change", function (e) {
+        if (source) {
+          source.stop();
+          source = null;
+          startTime = null;
+          pauseTime = null;
+        }
+
+        var file = e.target.files[0];
+        handleFile(file);
+      });
+
+      document.addEventListener("dragover", function (e) {
+        e.preventDefault();
+      });
+
+      document.addEventListener("drop", function (e) {
+        e.preventDefault();
+      });
+
+      playButton.addEventListener("click", function () {
+        if (!source && buffer && pauseTime !== undefined) {
+          playBuffer(buffer, pauseTime);
+          pauseTime = null;
+        }
+      });
+
+      pauseButton.addEventListener("click", function () {
+        if (source) {
+          source.stop();
+          source = null;
+
+          pauseTime = audioContext.currentTime - startTime;
+
+          startTime = null;
+        }
+      });
+
+      function handleFile(file) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          audioContext.decodeAudioData(e.target.result, function (
+            decodedData
+          ) {
+            buffer = decodedData;
+            playBuffer(buffer);
+          });
+        };
+
+        reader.readAsArrayBuffer(file);
+
+        playButton.disabled = false;
+        pauseButton.disabled = false;
+      }
+
+      function playBuffer(buffer, offset) {
+        source = audioContext.createBufferSource();
+
+        // Create a reversed buffer
+        var reversedBuffer = audioContext.createBuffer(
+          buffer.numberOfChannels,
+          buffer.length,
+          buffer.sampleRate
+        );
+
+        for (var channel = 0; channel < buffer.numberOfChannels; channel++) {
+          var channelData = buffer.getChannelData(channel);
+          var reversedChannelData =
+            reversedBuffer.getChannelData(channel);
+
+          for (var i = 0; i < channelData.length; i++) {
+            reversedChannelData[i] =
+              channelData[channelData.length - i - 1];
+          }
+        }
+
+        source.buffer = reversedBuffer;
+
+        source.connect(audioContext.destination);
+
+        startTime = audioContext.currentTime - (offset || 0);
+
+        source.start(0, offset || 0);
+      }
+    </script>
+  </body>
+</html>
+```
+
+This updated code centers all elements on the page both horizontally and vertically. It also adds an upload button for mobile users who don’t have the drag and drop functionality. The upload button is placed directly under the drop zone and is only visible on devices that don’t support hover. This way, mobile users can click on the upload button and be able to upload any audio file from their device.
+
+![](/images/prompt_12.png)
+
 
 </details>
+
 <hr>
 
 <details>

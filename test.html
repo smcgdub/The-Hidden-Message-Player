@@ -21,15 +21,12 @@
       font-size: 20px;
     }
 
-    #uploadButton {
-      display: none;
+    #fileInput {
+      margin-top: 10px;
     }
 
-    @media (hover: none) {
-      #uploadButton {
-        display: block;
-        margin-top: 10px;
-      }
+    #songName {
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -37,16 +34,18 @@
 <body>
   <h1>Reverse Audio Player</h1>
   <div id="dropZone">Drop audio file here</div>
-  <input type="file" id="uploadButton" accept="audio/*" />
+  <input type="file" id="fileInput" accept="audio/*" />
   <br />
   <button id="playButton" disabled>Play</button>
   <button id="pauseButton" disabled>Pause</button>
+  <p id="songName"></p>
 
   <script>
     var dropZone = document.getElementById("dropZone");
     var playButton = document.getElementById("playButton");
     var pauseButton = document.getElementById("pauseButton");
-    var uploadButton = document.getElementById("uploadButton");
+    var fileInput = document.getElementById("fileInput");
+    var songName = document.getElementById("songName");
 
     var audioContext = new AudioContext();
     var source;
@@ -79,10 +78,16 @@
       }
 
       var file = e.dataTransfer.files[0];
-      handleFile(file);
+
+      if (file.type.startsWith("audio/")) {
+        handleFile(file);
+      } else {
+        dropZone.textContent =
+          "Sorry, only audio files can be uploaded.";
+      }
     });
 
-    uploadButton.addEventListener("change", function (e) {
+    fileInput.addEventListener("change", function (e) {
       if (source) {
         source.stop();
         source = null;
@@ -114,7 +119,8 @@
         source.stop();
         source = null;
 
-        pauseTime = audioContext.currentTime - startTime;
+        pauseTime =
+          audioContext.currentTime - startTime;
 
         startTime = null;
       }
@@ -136,34 +142,58 @@
 
       playButton.disabled = false;
       pauseButton.disabled = false;
+
+      // Display the file name without the extension
+      var fileNameWithoutExtension =
+        file.name.substr(0, file.name.lastIndexOf(".")) ||
+        file.name;
+
+      songName.textContent =
+        "Song playing: " + fileNameWithoutExtension;
+
+      // Reset the drop zone text
+      dropZone.textContent =
+        "Drop audio file here";
     }
 
     function playBuffer(buffer, offset) {
-      source = audioContext.createBufferSource();
+      source =
+        audioContext.createBufferSource();
 
       // Create a reversed buffer
-      var reversedBuffer = audioContext.createBuffer(
-        buffer.numberOfChannels,
-        buffer.length,
-        buffer.sampleRate
-      );
+      var reversedBuffer =
+        audioContext.createBuffer(
+          buffer.numberOfChannels,
+          buffer.length,
+          buffer.sampleRate
+        );
 
-      for (var channel = 0; channel < buffer.numberOfChannels; channel++) {
-        var channelData = buffer.getChannelData(channel);
+      for (
+        var channel = 0; channel < buffer.numberOfChannels; channel++
+      ) {
+        var channelData =
+          buffer.getChannelData(channel);
         var reversedChannelData =
           reversedBuffer.getChannelData(channel);
 
-        for (var i = 0; i < channelData.length; i++) {
+        for (
+          var i = 0; i < channelData.length; i++
+        ) {
           reversedChannelData[i] =
             channelData[channelData.length - i - 1];
         }
       }
 
-      source.buffer = reversedBuffer;
+      source.buffer =
+        reversedBuffer;
 
-      source.connect(audioContext.destination);
+      source.connect(
+        audioContext.destination
+      );
 
-      startTime = audioContext.currentTime - (offset || 0);
+      startTime =
+        audioContext.currentTime -
+        (offset || 0);
 
       source.start(0, offset || 0);
     }

@@ -28,6 +28,21 @@
     #songName {
       margin-top: 10px;
     }
+
+    #progressContainer {
+      width: 300px;
+      height: 20px;
+      border: 1px solid #bbb;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    #progressBar {
+      width: 0%;
+      height: 100%;
+      background-color: #4caf50;
+    }
   </style>
 </head>
 
@@ -39,6 +54,9 @@
   <button id="playButton" disabled>Play</button>
   <button id="pauseButton" disabled>Pause</button>
   <p id="songName"></p>
+  <div id="progressContainer">
+    <div id="progressBar"></div>
+  </div>
 
   <script>
     var dropZone = document.getElementById("dropZone");
@@ -46,6 +64,10 @@
     var pauseButton = document.getElementById("pauseButton");
     var fileInput = document.getElementById("fileInput");
     var songName = document.getElementById("songName");
+    var progressContainer = document.getElementById(
+      "progressContainer"
+    );
+    var progressBar = document.getElementById("progressBar");
 
     var audioContext = new AudioContext();
     var source;
@@ -75,49 +97,163 @@
         source = null;
         startTime = null;
         pauseTime = null;
+
+        // Reset the progress bar
+        progressBar.style.width =
+          "0%";
       }
 
-      var file = e.dataTransfer.files[0];
-      handleFile(file);
-    });
+      var file =
+        e.dataTransfer.files[0];
 
-    fileInput.addEventListener("change", function (e) {
-      if (source) {
-        source.stop();
-        source = null;
-        startTime = null;
-        pauseTime = null;
-      }
-
-      var file = e.target.files[0];
-      handleFile(file);
-    });
-
-    document.addEventListener("dragover", function (e) {
-      e.preventDefault();
-    });
-
-    document.addEventListener("drop", function (e) {
-      e.preventDefault();
-    });
-
-    playButton.addEventListener("click", function () {
-      if (!source && buffer && pauseTime !== undefined) {
-        playBuffer(buffer, pauseTime);
-        pauseTime = null;
+      if (
+        file.type.startsWith(
+          "audio/"
+        )
+      ) {
+        handleFile(file);
+      } else {
+        dropZone.textContent =
+          "Sorry, only audio files can be uploaded.";
       }
     });
 
-    pauseButton.addEventListener("click", function () {
-      if (source) {
-        source.stop();
-        source = null;
+    fileInput.addEventListener(
+      "change",
+      function (e) {
+        if (source) {
+          source.stop();
+          source = null;
+          startTime =
+            null;
+          pauseTime =
+            null;
 
-        pauseTime = audioContext.currentTime - startTime;
+          // Reset the progress bar
+          progressBar.style.width =
+            "0%";
+        }
 
-        startTime = null;
+        var file =
+          e.target.files[0];
+        handleFile(file);
       }
-    });
+    );
+
+    document.addEventListener(
+      "dragover",
+      function (e) {
+        e.preventDefault();
+      }
+    );
+
+    document.addEventListener(
+      "drop",
+      function (e) {
+        e.preventDefault();
+      }
+    );
+
+    playButton.addEventListener(
+      "click",
+      function () {
+        if (
+          !source &&
+          buffer &&
+          pauseTime !==
+          undefined
+        ) {
+          playBuffer(
+            buffer,
+            pauseTime
+          );
+          pauseTime =
+            null;
+
+          // Start updating the progress bar
+          updateProgressBar();
+        }
+      }
+    );
+
+    pauseButton.addEventListener(
+      "click",
+      function () {
+        if (source) {
+          source.stop();
+          source =
+            null;
+
+          pauseTime =
+            audioContext.currentTime -
+            startTime;
+
+          startTime =
+            null;
+
+          // Stop updating the progress bar
+          clearInterval(
+            updateProgressBarInterval
+          );
+        }
+      }
+    );
+
+    progressContainer.addEventListener(
+      "click",
+      function (e) {
+        if (
+          buffer &&
+          source
+        ) {
+          // Calculate the new time based on the click position
+          var newTime =
+            (e.offsetX /
+              progressContainer.offsetWidth) *
+            buffer.duration;
+
+          // Stop the current playback
+          source.stop();
+          source =
+            null;
+
+          // Start playing from the new time
+          playBuffer(
+            buffer,
+            newTime
+          );
+        }
+      }
+    );
+
+    var updateProgressBarInterval;
+
+    function updateProgressBar() {
+      updateProgressBarInterval =
+        setInterval(function () {
+          if (
+            buffer &&
+            source &&
+            startTime !==
+            null
+          ) {
+            // Calculate the current time
+            var currentTime =
+              audioContext.currentTime -
+              startTime;
+
+            // Calculate the progress as a percentage
+            var progress =
+              (currentTime /
+                buffer.duration) *
+              100;
+
+            // Update the progress bar width
+            progressBar.style.width =
+              progress + "%";
+          }
+        }, 100);
+    }
 
     function handleFile(file) {
       var reader = new FileReader();
@@ -128,6 +264,7 @@
         ) {
           buffer = decodedData;
           playBuffer(buffer);
+          updateProgressBar(); // Start updating the progress bar
         });
       };
 
@@ -142,10 +279,17 @@
 
       songName.textContent =
         "Song playing: " + fileNameWithoutExtension;
+
+      // Reset the drop zone text
+      dropZone.textContent = "Drop audio file here";
     }
 
-    function playBuffer(buffer, offset) {
-      source = audioContext.createBufferSource();
+    function playBuffer(
+      buffer,
+      offset
+    ) {
+      source =
+        audioContext.createBufferSource();
 
       // Create a reversed buffer
       var reversedBuffer =
@@ -156,18 +300,28 @@
         );
 
       for (
-        var channel = 0; channel < buffer.numberOfChannels; channel++
+        var channel = 0; channel <
+        buffer.numberOfChannels; channel++
       ) {
         var channelData =
-          buffer.getChannelData(channel);
+          buffer.getChannelData(
+            channel
+          );
         var reversedChannelData =
-          reversedBuffer.getChannelData(channel);
+          reversedBuffer.getChannelData(
+            channel
+          );
 
         for (
-          var i = 0; i < channelData.length; i++
+          var i = 0; i <
+          channelData.length; i++
         ) {
           reversedChannelData[i] =
-            channelData[channelData.length - i - 1];
+            channelData[
+              channelData.length -
+              i -
+              1
+            ];
         }
       }
 

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Audio Player</title>
+  <title>Reverse Audio Player</title>
   <style>
     #dropZone {
       border: 2px dashed #bbb;
@@ -15,14 +15,15 @@
 </head>
 
 <body>
-  <h1>Audio Player</h1>
+  <h1>Reverse Audio Player</h1>
   <div id="dropZone">Drop audio file here</div>
-  <br />
-  <audio id="audioPlayer" controls></audio>
 
   <script>
     var dropZone = document.getElementById("dropZone");
-    var audioPlayer = document.getElementById("audioPlayer");
+
+    var audioContext = new AudioContext();
+    var source;
+    var buffer;
 
     dropZone.addEventListener("dragover", function (e) {
       e.preventDefault();
@@ -41,9 +42,21 @@
       e.stopPropagation();
       this.style.background = "";
 
+      if (source) {
+        source.stop();
+      }
+
       var file = e.dataTransfer.files[0];
-      audioPlayer.src = URL.createObjectURL(file);
-      audioPlayer.play();
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        audioContext.decodeAudioData(e.target.result, function (decodedData) {
+          buffer = decodedData;
+          playBuffer(buffer);
+        });
+      };
+
+      reader.readAsArrayBuffer(file);
     });
 
     document.addEventListener("dragover", function (e) {
@@ -53,6 +66,14 @@
     document.addEventListener("drop", function (e) {
       e.preventDefault();
     });
+
+    function playBuffer(buffer) {
+      source = audioContext.createBufferSource();
+      source.buffer = buffer;
+      source.connect(audioContext.destination);
+      source.playbackRate.value = -1;
+      source.start(0, buffer.duration);
+    }
   </script>
 </body>
 

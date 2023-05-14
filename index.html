@@ -5,8 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Reverse Audio Player</title>
+  <title>The Hidden Message Player</title>
   <style>
     body {
       display: flex;
@@ -31,6 +30,7 @@
 
     #fileInput {
       margin-top: 10px;
+      padding: 5px;
     }
 
     #songName {
@@ -57,14 +57,19 @@
     }
 
     button {
+      display: block;
+      /* Make the buttons block-level elements */
       margin-top: 10px;
+      /* Add vertical space between the buttons */
+      padding: 5px;
+      /* Add padding to the buttons */
     }
   </style>
 </head>
 
 <body>
   <div id="container">
-    <h1>Reverse Audio Player</h1>
+    <h1>The Hidden Message Player</h1> <!-- Change the heading text -->
     <div id="dropZone">Drop audio file here</div>
     <input type="file" id="fileInput" accept="audio/*" />
     <br />

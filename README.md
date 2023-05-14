@@ -3088,6 +3088,109 @@ With these changes, all of the elements on the page will take up `70%` of the wi
 <hr>
 
 <strong>Prompt 21:</strong><br>
+Adjust the following in the code:
+
+1. Change the <h1> from Reverse Audio Player to The Hidden Message Player
+2. Add padding to the play and pause buttons
+3. I want the play and pause buttons to be block level elements so they don't share the same line no matter what screen size
+4. add some margin and padding to the input
+
+You can just reply with the css code, no need to re-write the javascript
+
+<strong>Response 21:</strong><br>
+Sure! Here’s the updated HTML and CSS code with the changes you requested:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Hidden Message Player</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      #container {
+        width: 70%;
+      }
+      #dropZone {
+        border: 2px dashed #bbb;
+        border-radius: 5px;
+        padding: 25px;
+        text-align: center;
+        font-size: 20px;
+      }
+      #fileInput {
+        margin-top: 10px;
+        padding: 5px;
+      }
+      #songName {
+        margin-top: 10px;
+      }
+      #progressContainer {
+        width: 100%;
+        height: 20px;
+        border: 1px solid #bbb;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+      #progressBar {
+        width: 0%;
+        height: 100%;
+        background-color: #4caf50;
+      }
+      #timer {
+        margin-top: 10px;
+      }
+      button {
+        display: block; /* Make the buttons block-level elements */
+        margin-top: 10px; /* Add vertical space between the buttons */
+        padding: 5px; /* Add padding to the buttons */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+      <h1>The Hidden Message Player</h1> <!-- Change the heading text -->
+      <div id="dropZone">Drop audio file here</div>
+      <input type="file" id="fileInput" accept="audio/*" />
+      <br />
+      <button id="playButton" disabled>Play</button>
+      <button id="pauseButton" disabled>Pause</button>
+      <p id="songName"></p>
+      <div id="progressContainer">
+        <div id="progressBar"></div>
+      </div>
+      <p id="timer">00:00 / 00:00</p>
+    </div>
+
+    <!-- JavaScript code omitted for brevity -->
+  </body>
+</html>
+```
+
+This updated HTML and CSS code makes the following changes:
+
+1. The `h1` element text is changed from “Reverse Audio Player” to “The Hidden Message Player”.
+2. The `button` elements are given a padding property of `5px` to add some padding to the play and pause buttons.
+3. The `button` elements are given a `display` property of `block` to make them block-level elements. This means that they will no longer share the same line and will instead be displayed on separate lines, no matter what screen size.
+4. The `#fileInput` element is given a `padding` property of `5px` and a `margin-top` property of `10px` to add some padding and margin to the input.
+
+With these changes, the heading text will be updated, the play and pause buttons will have some padding and will be displayed on separate lines, and the input will have some margin and padding.
+
+![](/images/prompt_21.png)
+
+<strong>21 of </strong>
+
+<hr>
+
+<strong>Prompt 22:</strong><br>
 
 </details>
 

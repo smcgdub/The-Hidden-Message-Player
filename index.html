@@ -24,6 +24,10 @@
     #fileInput {
       margin-top: 10px;
     }
+
+    #songName {
+      margin-top: 10px;
+    }
   </style>
 </head>
 
@@ -34,12 +38,14 @@
   <br />
   <button id="playButton" disabled>Play</button>
   <button id="pauseButton" disabled>Pause</button>
+  <p id="songName"></p>
 
   <script>
     var dropZone = document.getElementById("dropZone");
     var playButton = document.getElementById("playButton");
     var pauseButton = document.getElementById("pauseButton");
     var fileInput = document.getElementById("fileInput");
+    var songName = document.getElementById("songName");
 
     var audioContext = new AudioContext();
     var source;
@@ -129,34 +135,52 @@
 
       playButton.disabled = false;
       pauseButton.disabled = false;
+
+      // Display the file name without the extension
+      var fileNameWithoutExtension =
+        file.name.substr(0, file.name.lastIndexOf(".")) || file.name;
+
+      songName.textContent =
+        "Song playing: " + fileNameWithoutExtension;
     }
 
     function playBuffer(buffer, offset) {
       source = audioContext.createBufferSource();
 
       // Create a reversed buffer
-      var reversedBuffer = audioContext.createBuffer(
-        buffer.numberOfChannels,
-        buffer.length,
-        buffer.sampleRate
-      );
+      var reversedBuffer =
+        audioContext.createBuffer(
+          buffer.numberOfChannels,
+          buffer.length,
+          buffer.sampleRate
+        );
 
-      for (var channel = 0; channel < buffer.numberOfChannels; channel++) {
-        var channelData = buffer.getChannelData(channel);
+      for (
+        var channel = 0; channel < buffer.numberOfChannels; channel++
+      ) {
+        var channelData =
+          buffer.getChannelData(channel);
         var reversedChannelData =
           reversedBuffer.getChannelData(channel);
 
-        for (var i = 0; i < channelData.length; i++) {
+        for (
+          var i = 0; i < channelData.length; i++
+        ) {
           reversedChannelData[i] =
             channelData[channelData.length - i - 1];
         }
       }
 
-      source.buffer = reversedBuffer;
+      source.buffer =
+        reversedBuffer;
 
-      source.connect(audioContext.destination);
+      source.connect(
+        audioContext.destination
+      );
 
-      startTime = audioContext.currentTime - (offset || 0);
+      startTime =
+        audioContext.currentTime -
+        (offset || 0);
 
       source.start(0, offset || 0);
     }

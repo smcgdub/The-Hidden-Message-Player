@@ -1451,6 +1451,219 @@ This updated code centers all elements on the page both horizontally and vertica
 <strong>14 of </strong>
 <hr>
 
+<strong>Prompt 15:</strong><br>
+Next i want you to write the code for the following:
+
+1. When a user uploads an audiofile, I want the name of the file to be displayed. I don’t want the file type to be displayed, for example, I don’t want it to display .mp3, I just want the file name to be displayed. 
+
+2. Also I want text to populate so it says Song playing: and then you insert the song name in so users can seethe name of the file/song that is playing.
+
+<strong>Response 15:</strong><br>
+Sure! Here’s the updated code with the changes you requested:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reverse Audio Player</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      #dropZone {
+        border: 2px dashed #bbb;
+        border-radius: 5px;
+        padding: 25px;
+        text-align: center;
+        font-size: 20px;
+      }
+      #fileInput {
+        margin-top: 10px;
+      }
+      #songName {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Reverse Audio Player</h1>
+    <div id="dropZone">Drop audio file here</div>
+    <input type="file" id="fileInput" accept="audio/*" />
+    <br />
+    <button id="playButton" disabled>Play</button>
+    <button id="pauseButton" disabled>Pause</button>
+    <p id="songName"></p>
+
+    <script>
+      var dropZone = document.getElementById("dropZone");
+      var playButton = document.getElementById("playButton");
+      var pauseButton = document.getElementById("pauseButton");
+      var fileInput = document.getElementById("fileInput");
+      var songName = document.getElementById("songName");
+
+      var audioContext = new AudioContext();
+      var source;
+      var buffer;
+      var startTime;
+      var pauseTime;
+
+      dropZone.addEventListener("dragover", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.style.background = "#eee";
+      });
+
+      dropZone.addEventListener("dragleave", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.style.background = "";
+      });
+
+      dropZone.addEventListener("drop", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.style.background = "";
+
+        if (source) {
+          source.stop();
+          source = null;
+          startTime = null;
+          pauseTime = null;
+        }
+
+        var file = e.dataTransfer.files[0];
+        handleFile(file);
+      });
+
+      fileInput.addEventListener("change", function (e) {
+        if (source) {
+          source.stop();
+          source = null;
+          startTime = null;
+          pauseTime = null;
+        }
+
+        var file = e.target.files[0];
+        handleFile(file);
+      });
+
+      document.addEventListener("dragover", function (e) {
+        e.preventDefault();
+      });
+
+      document.addEventListener("drop", function (e) {
+        e.preventDefault();
+      });
+
+      playButton.addEventListener("click", function () {
+        if (!source && buffer && pauseTime !== undefined) {
+          playBuffer(buffer, pauseTime);
+          pauseTime = null;
+        }
+      });
+
+      pauseButton.addEventListener("click", function () {
+        if (source) {
+          source.stop();
+          source = null;
+
+          pauseTime = audioContext.currentTime - startTime;
+
+          startTime = null;
+        }
+      });
+
+      function handleFile(file) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          audioContext.decodeAudioData(e.target.result, function (
+            decodedData
+          ) {
+            buffer = decodedData;
+            playBuffer(buffer);
+          });
+        };
+
+        reader.readAsArrayBuffer(file);
+
+        playButton.disabled = false;
+        pauseButton.disabled = false;
+
+        // Display the file name without the extension
+        var fileNameWithoutExtension =
+          file.name.substr(0, file.name.lastIndexOf(".")) || file.name;
+
+       songName.textContent =
+         "Song playing: " + fileNameWithoutExtension; 
+       }
+
+       function playBuffer(buffer, offset) {
+         source = audioContext.createBufferSource();
+
+         // Create a reversed buffer
+         var reversedBuffer =
+           audioContext.createBuffer(
+             buffer.numberOfChannels,
+             buffer.length,
+             buffer.sampleRate
+           );
+
+         for (
+           var channel = 0;
+           channel < buffer.numberOfChannels;
+           channel++
+         ) {
+           var channelData =
+             buffer.getChannelData(channel);
+           var reversedChannelData =
+             reversedBuffer.getChannelData(channel);
+
+           for (
+             var i = 0;
+             i < channelData.length;
+             i++
+           ) {
+             reversedChannelData[i] =
+               channelData[channelData.length - i - 1];
+           }
+         }
+
+         source.buffer =
+           reversedBuffer;
+
+         source.connect(
+           audioContext.destination
+         );
+
+         startTime =
+           audioContext.currentTime -
+           (offset || 0);
+
+         source.start(0, offset || 0);
+       }
+     </script>
+   </body>
+ </html>
+```
+
+This updated code adds a p element with `id="songName"` to display the name of the uploaded file. When a user uploads an audio file, either by dragging and dropping it onto the drop zone or by using the upload button, the `handleFile` function is called. This function now includes code to extract the file name without the extension and update the `textContent` of the `#songName` element to display the text “Song playing:” followed by the file name.
+
+This way, when a user uploads an audio file, they will see the text “Song playing:” followed by the name of the uploaded file displayed on the page.
+
+![](/images/prompt_15.png)
+
+<strong>15 of</strong>
+
+<hr>
+
+
 </details>
 
 <hr>

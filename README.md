@@ -260,9 +260,46 @@ Below you can see the entire conversation i had with Bing chat to build this pro
 <hr>
 
 <strong>Prompt 1:</strong><br> 
+I want to build an audio file / song player on a web page. I need you to help me. We will need to create an audio player to start with. Users will drag and drop an audio file/song of their choice into a drop zone and when they do this the song will load into the player and start playing automatically. Can you generate this code for me
 
-<strong>Response</strong><br> 
+<strong>Response 1:</strong><br> 
+Sure! Here’s a simple example of how you can create an audio player on a web page using HTML5 and JavaScript:
 
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Audio Player</title>
+</head>
+
+<body>
+  <h1>Audio Player</h1>
+  <input type="file" id="audioFile" accept="audio/*" />
+  <br />
+  <audio id="audioPlayer" controls></audio>
+
+  <script>
+    document.getElementById("audioFile").addEventListener("change", function () {
+      var file = this.files[0];
+      var audioPlayer = document.getElementById("audioPlayer");
+      audioPlayer.src = URL.createObjectURL(file);
+      audioPlayer.play();
+    });
+  </script>
+</body>
+
+</html>
+```
+
+This code creates an input element that allows the user to select an audio file from their device. When the user selects a file, the change event is triggered and the selected file is loaded into the audio element using the URL.createObjectURL() method. The play() method is then called on the audio element to start playing the selected file.
+
+![](images/prompt_1.png)
+
+Is this what you were looking for?
+1 of 
+
+<strong>Prompt 2:</strong><br>
 
 </details>
 <hr>

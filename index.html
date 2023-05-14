@@ -29,6 +29,8 @@
     var audioContext = new AudioContext();
     var source;
     var buffer;
+    var startTime;
+    var pauseTime;
 
     dropZone.addEventListener("dragover", function (e) {
       e.preventDefault();
@@ -49,6 +51,9 @@
 
       if (source) {
         source.stop();
+        source = null;
+        startTime = null;
+        pauseTime = null;
       }
 
       var file = e.dataTransfer.files[0];
@@ -76,9 +81,9 @@
     });
 
     playButton.addEventListener("click", function () {
-      if (source) {
-        source.stop();
-        playBuffer(buffer);
+      if (!source && buffer && pauseTime !== undefined) {
+        playBuffer(buffer, pauseTime);
+        pauseTime = null;
       }
     });
 
@@ -86,10 +91,14 @@
       if (source) {
         source.stop();
         source = null;
+
+        pauseTime = audioContext.currentTime - startTime;
+
+        startTime = null;
       }
     });
 
-    function playBuffer(buffer) {
+    function playBuffer(buffer, offset) {
       source = audioContext.createBufferSource();
 
       // Create a reversed buffer
@@ -108,7 +117,9 @@
 
       source.connect(audioContext.destination);
 
-      source.start(0);
+      startTime = audioContext.currentTime - (offset || 0);
+
+      source.start(0, offset || 0);
     }
   </script>
 </body>

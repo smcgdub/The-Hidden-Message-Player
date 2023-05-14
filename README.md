@@ -916,6 +916,155 @@ When the `pauseButton` is clicked, the `click` event is triggered and the `stop(
 Please let me know if this version of the code meets your needs.<br>
 <strong>10 of </strong>
 
+<hr>
+
+<strong>Prompt 11:</strong><br>
+Can you check the code again? The pause button works as when it is pressed the song stops playing, however when I press the play button the song doesn’t start playing again from the same point? Please adjust the code so this play button works
+
+<strong>Response 11:</strong><br>
+I apologize for any confusion. The current implementation of the `playButton` event listener stops the current playback and starts playing the audio data from the beginning. To resume playback from the point where it was paused, you need to keep track of the current playback position and use the `start()` method of the `BufferSourceNode` to start playback from that position.
+
+Here’s an updated version of the code that adds this functionality:
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Reverse Audio Player</title>
+  <style>
+    #dropZone {
+      border: 2px dashed #bbb;
+      border-radius: 5px;
+      padding: 25px;
+      text-align: center;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Reverse Audio Player</h1>
+  <div id="dropZone">Drop audio file here</div>
+  <br />
+  <button id="playButton" disabled>Play</button>
+  <button id="pauseButton" disabled>Pause</button>
+
+  <script>
+    var dropZone = document.getElementById("dropZone");
+    var playButton = document.getElementById("playButton");
+    var pauseButton = document.getElementById("pauseButton");
+
+    var audioContext = new AudioContext();
+    var source;
+    var buffer;
+    var startTime;
+    var pauseTime;
+
+    dropZone.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "#eee";
+    });
+
+    dropZone.addEventListener("dragleave", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "";
+    });
+
+    dropZone.addEventListener("drop", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "";
+
+      if (source) {
+        source.stop();
+        source = null;
+        startTime = null;
+        pauseTime = null;
+      }
+
+      var file = e.dataTransfer.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        audioContext.decodeAudioData(e.target.result, function (decodedData) {
+          buffer = decodedData;
+          playBuffer(buffer);
+        });
+      };
+
+      reader.readAsArrayBuffer(file);
+
+      playButton.disabled = false;
+      pauseButton.disabled = false;
+    });
+
+    document.addEventListener("dragover", function (e) {
+      e.preventDefault();
+    });
+
+    document.addEventListener("drop", function (e) {
+      e.preventDefault();
+    });
+
+    playButton.addEventListener("click", function () {
+      if (!source && buffer && pauseTime !== undefined) {
+        playBuffer(buffer, pauseTime);
+        pauseTime = null;
+      }
+    });
+
+    pauseButton.addEventListener("click", function () {
+      if (source) {
+        source.stop();
+        source = null;
+
+        pauseTime = audioContext.currentTime - startTime;
+
+        startTime = null;
+      }
+    });
+
+    function playBuffer(buffer, offset) {
+      source = audioContext.createBufferSource();
+
+      // Create a reversed buffer
+      var reversedBuffer = audioContext.createBuffer(buffer.numberOfChannels, buffer.length, buffer.sampleRate);
+
+      for (var channel = 0; channel < buffer.numberOfChannels; channel++) {
+        var channelData = buffer.getChannelData(channel);
+        var reversedChannelData = reversedBuffer.getChannelData(channel);
+
+        for (var i = 0; i < channelData.length; i++) {
+          reversedChannelData[i] = channelData[channelData.length - i - 1];
+        }
+      }
+
+      source.buffer = reversedBuffer;
+
+      source.connect(audioContext.destination);
+
+      startTime = audioContext.currentTime - (offset || 0);
+
+      source.start(0, offset || 0);
+    }
+  </script>
+</body>
+
+</html>
+```
+
+In this version of the code, two new variables are added to keep track of the current playback position: `startTime` and `pauseTime`. The `startTime` variable is used to store the time when playback started, and the `pauseTime` variable is used to store the time when playback was paused.
+
+When a file is dropped onto the drop zone and playback starts, the `startTime` variable is set to the current time using the `currentTime` property of the `AudioContext` object. When the `pauseButton` is clicked and playback is paused, the `pauseTime` variable is set to the difference between the current time and the `startTime`, which represents the current playback position.
+
+When the `playButton` is clicked and playback is resumed, the `playBuffer()` function is called with the `buffer` object and the value of the `pauseTime` variable as arguments. The `playBuffer()` function has been updated to accept an optional `offset` argument that specifies the starting position for playback. When this argument is provided, it is passed to the `start()` method of the `BufferSourceNode` to start playback from that position.
+
+Please let me know if this version of the code meets your needs.<br>
+<strong>11 of </strong>
+
 
 </details>
 <hr>

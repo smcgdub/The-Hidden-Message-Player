@@ -1248,6 +1248,37 @@ This updated code centers all elements on the page both horizontally and vertica
 
 ![](/images/prompt_12.png)
 
+<strong>12 of </strong>
+
+<hr>
+
+<strong>Prompt 13:</strong><br>
+I cant see the `<input type="file" id="uploadButton" accept="audio/*" />` displayed on the screen. Please re-check the code
+
+<strong>Response 13:</strong><br>
+The `input` element with `type="file"` and `id="uploadButton"` is used to create the upload button. It is initially set to `display: none;` in the CSS, which means it is not visible on the page. However, there is a media query in the CSS that targets devices that don’t support hover:
+
+```css
+@media (hover: none) {
+  #uploadButton {
+    display: block;
+    margin-top: 10px;
+  }
+}
+```
+
+This media query sets the display property of the `#uploadButton` element to `block` on devices that don’t support hover, such as mobile devices. This means that the upload button should be visible on mobile devices.
+
+If you’re testing this on a desktop or laptop computer, you may not see the upload button because it is set to `display: none;`. To see the upload button on a desktop or laptop computer, you can either remove the `display: none;` property from the `#uploadButton` element in the CSS or use your browser’s developer tools to simulate a mobile device.
+
+<hr>
+
+<strong>Prompt 14:</strong><br>
+
+
+<strong>Response 14:</strong><br>
+
+<hr>
 
 </details>
 

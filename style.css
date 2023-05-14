@@ -74,6 +74,8 @@ button {
   color: #fff;
   /* Set the button text color to white */
   border-radius: 5px;
+  /* Set font size to 16px */
+  font-size: 16px;
 }
 
 button:hover {

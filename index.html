@@ -43,6 +43,10 @@
       height: 100%;
       background-color: #4caf50;
     }
+
+    #timer {
+      margin-top: 10px;
+    }
   </style>
 </head>
 
@@ -57,6 +61,7 @@
   <div id="progressContainer">
     <div id="progressBar"></div>
   </div>
+  <p id="timer">00:00 / 00:00</p>
 
   <script>
     var dropZone = document.getElementById("dropZone");
@@ -68,6 +73,7 @@
       "progressContainer"
     );
     var progressBar = document.getElementById("progressBar");
+    var timer = document.getElementById("timer");
 
     var audioContext = new AudioContext();
     var source;
@@ -170,8 +176,8 @@
           pauseTime =
             null;
 
-          // Start updating the progress bar
-          updateProgressBar();
+          // Start updating the progress bar and timer
+          updateProgressBarAndTimer();
         }
       }
     );
@@ -191,9 +197,9 @@
           startTime =
             null;
 
-          // Stop updating the progress bar
+          // Stop updating the progress bar and timer
           clearInterval(
-            updateProgressBarInterval
+            updateProgressBarAndTimerInterval
           );
         }
       }
@@ -226,10 +232,10 @@
       }
     );
 
-    var updateProgressBarInterval;
+    var updateProgressBarAndTimerInterval;
 
-    function updateProgressBar() {
-      updateProgressBarInterval =
+    function updateProgressBarAndTimer() {
+      updateProgressBarAndTimerInterval =
         setInterval(function () {
           if (
             buffer &&
@@ -251,21 +257,43 @@
             // Update the progress bar width
             progressBar.style.width =
               progress + "%";
+
+            // Update the timer text
+            timer.textContent =
+              formatTime(currentTime) +
+              " / " +
+              formatTime(buffer.duration);
           }
         }, 100);
+    }
+
+    function formatTime(time) {
+      var minutes = Math.floor(time / 60);
+      var seconds = Math.floor(time % 60);
+
+      return (
+        minutes.toString().padStart(2, "0") +
+        ":" +
+        seconds.toString().padStart(2, "0")
+      );
     }
 
     function handleFile(file) {
       var reader = new FileReader();
 
-      reader.onload = function (e) {
-        audioContext.decodeAudioData(e.target.result, function (
-          decodedData
-        ) {
-          buffer = decodedData;
-          playBuffer(buffer);
-          updateProgressBar(); // Start updating the progress bar
-        });
+      reader.onload = function (
+        e
+      ) {
+        audioContext.decodeAudioData(
+          e.target.result,
+          function (
+            decodedData
+          ) {
+            buffer =
+              decodedData;
+            playBuffer(buffer);
+            updateProgressBarAndTimer(); // Start updating the progress bar and timer
+          });
       };
 
       reader.readAsArrayBuffer(file);
@@ -275,21 +303,20 @@
 
       // Display the file name without the extension
       var fileNameWithoutExtension =
-        file.name.substr(0, file.name.lastIndexOf(".")) || file.name;
+        file.name.substr(0, file.name.lastIndexOf(".")) ||
+        file.name;
 
       songName.textContent =
-        "Song playing: " + fileNameWithoutExtension;
+        "Song playing: " +
+        fileNameWithoutExtension;
 
       // Reset the drop zone text
-      dropZone.textContent = "Drop audio file here";
+      dropZone.textContent =
+        "Drop audio file here";
     }
 
-    function playBuffer(
-      buffer,
-      offset
-    ) {
-      source =
-        audioContext.createBufferSource();
+    function playBuffer(buffer, offset) {
+      source = audioContext.createBufferSource();
 
       // Create a reversed buffer
       var reversedBuffer =
@@ -304,13 +331,9 @@
         buffer.numberOfChannels; channel++
       ) {
         var channelData =
-          buffer.getChannelData(
-            channel
-          );
+          buffer.getChannelData(channel);
         var reversedChannelData =
-          reversedBuffer.getChannelData(
-            channel
-          );
+          reversedBuffer.getChannelData(channel);
 
         for (
           var i = 0; i <
@@ -325,12 +348,9 @@
         }
       }
 
-      source.buffer =
-        reversedBuffer;
+      source.buffer = reversedBuffer;
 
-      source.connect(
-        audioContext.destination
-      );
+      source.connect(audioContext.destination);
 
       startTime =
         audioContext.currentTime -

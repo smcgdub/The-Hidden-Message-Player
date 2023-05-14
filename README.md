@@ -2317,6 +2317,387 @@ With these changes, when a user uploads an audio file, the song will start playi
 
 <hr>
 
+<strong>Prompt 19:</strong><br>
+Can we also add a timer underneath the progress bar. I want the user to be able to see how long the audio file is and how much of it has played, just like the timer on any mediaplayer
+
+<strong>Response 19:</strong><br>
+Sure! Here’s the updated code with the changes you requested:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reverse Audio Player</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      #dropZone {
+        border: 2px dashed #bbb;
+        border-radius: 5px;
+        padding: 25px;
+        text-align: center;
+        font-size: 20px;
+      }
+      #fileInput {
+        margin-top: 10px;
+      }
+      #songName {
+        margin-top: 10px;
+      }
+      #progressContainer {
+        width: 300px;
+        height: 20px;
+        border: 1px solid #bbb;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+      #progressBar {
+        width: 0%;
+        height: 100%;
+        background-color: #4caf50;
+      }
+      #timer {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Reverse Audio Player</h1>
+    <div id="dropZone">Drop audio file here</div>
+    <input type="file" id="fileInput" accept="audio/*" />
+    <br />
+    <button id="playButton" disabled>Play</button>
+    <button id="pauseButton" disabled>Pause</button>
+    <p id="songName"></p>
+    <div id="progressContainer">
+      <div id="progressBar"></div>
+    </div>
+    <p id="timer">00:00 / 00:00</p>
+
+    <script>
+      var dropZone = document.getElementById("dropZone");
+      var playButton = document.getElementById("playButton");
+      var pauseButton = document.getElementById("pauseButton");
+      var fileInput = document.getElementById("fileInput");
+      var songName = document.getElementById("songName");
+      var progressContainer = document.getElementById(
+        "progressContainer"
+      );
+      var progressBar = document.getElementById("progressBar");
+      var timer = document.getElementById("timer");
+
+      var audioContext = new AudioContext();
+      var source;
+      var buffer;
+      var startTime;
+      var pauseTime;
+
+     dropZone.addEventListener("dragover", function (e) {
+       e.preventDefault();
+       e.stopPropagation();
+       this.style.background = "#eee";
+     });
+
+     dropZone.addEventListener("dragleave", function (e) {
+       e.preventDefault();
+       e.stopPropagation();
+       this.style.background = "";
+     });
+
+     dropZone.addEventListener("drop", function (e) {
+       e.preventDefault();
+       e.stopPropagation();
+       this.style.background = "";
+
+       if (source) {
+         source.stop();
+         source = null;
+         startTime = null;
+         pauseTime = null;
+
+         // Reset the progress bar
+         progressBar.style.width =
+           "0%";
+       }
+
+       var file =
+         e.dataTransfer.files[0];
+
+       if (
+         file.type.startsWith(
+           "audio/"
+         )
+       ) {
+         handleFile(file);
+       } else {
+         dropZone.textContent =
+           "Sorry, only audio files can be uploaded.";
+       }
+     });
+
+     fileInput.addEventListener(
+       "change",
+       function (e) {
+         if (source) {
+           source.stop();
+           source = null;
+           startTime =
+             null;
+           pauseTime =
+             null;
+
+           // Reset the progress bar
+           progressBar.style.width =
+             "0%";
+         }
+
+         var file =
+           e.target.files[0];
+         handleFile(file);
+       }
+     );
+
+     document.addEventListener(
+       "dragover",
+       function (e) {
+         e.preventDefault();
+       }
+     );
+
+     document.addEventListener(
+       "drop",
+       function (e) {
+         e.preventDefault();
+       }
+     );
+
+     playButton.addEventListener(
+       "click",
+       function () {
+         if (
+           !source &&
+           buffer &&
+           pauseTime !==
+             undefined
+         ) {
+           playBuffer(
+             buffer,
+             pauseTime
+           );
+           pauseTime =
+             null;
+
+           // Start updating the progress bar and timer
+           updateProgressBarAndTimer();
+         }
+       }
+     );
+
+     pauseButton.addEventListener(
+       "click",
+       function () {
+         if (source) {
+           source.stop();
+           source =
+             null;
+
+           pauseTime =
+             audioContext.currentTime -
+             startTime;
+
+           startTime =
+             null;
+
+           // Stop updating the progress bar and timer
+           clearInterval(
+             updateProgressBarAndTimerInterval
+           );
+         }
+       }
+     );
+
+     progressContainer.addEventListener(
+       "click",
+       function (e) {
+         if (
+           buffer &&
+           source
+         ) {
+           // Calculate the new time based on the click position
+           var newTime =
+             (e.offsetX /
+               progressContainer.offsetWidth) *
+             buffer.duration;
+
+           // Stop the current playback
+           source.stop();
+           source =
+             null;
+
+           // Start playing from the new time
+           playBuffer(
+             buffer,
+             newTime
+           );
+         }
+       }
+     );
+
+     var updateProgressBarAndTimerInterval;
+
+     function updateProgressBarAndTimer() {
+       updateProgressBarAndTimerInterval =
+         setInterval(function () {
+          if (
+            buffer &&
+            source &&
+            startTime !==
+              null
+          ) {
+            // Calculate the current time
+            var currentTime =
+              audioContext.currentTime -
+              startTime;
+
+            // Calculate the progress as a percentage
+            var progress =
+              (currentTime /
+                buffer.duration) *
+              100;
+
+            // Update the progress bar width
+            progressBar.style.width =
+              progress + "%";
+
+            // Update the timer text
+            timer.textContent =
+              formatTime(currentTime) +
+              " / " +
+              formatTime(buffer.duration);
+          }
+        }, 100);
+     }
+
+     function formatTime(time) {
+       var minutes = Math.floor(time / 60);
+       var seconds = Math.floor(time % 60);
+
+       return (
+         minutes.toString().padStart(2, "0") +
+         ":" +
+         seconds.toString().padStart(2, "0")
+       );
+     }
+
+     function handleFile(file) {
+       var reader = new FileReader();
+
+       reader.onload = function (
+         e
+       ) {
+         audioContext.decodeAudioData(
+           e.target.result,
+           function (
+             decodedData
+           ) {
+             buffer =
+               decodedData;
+             playBuffer(buffer);
+             updateProgressBarAndTimer(); // Start updating the progress bar and timer
+          });
+        };
+
+        reader.readAsArrayBuffer(file);
+
+        playButton.disabled = false;
+        pauseButton.disabled = false;
+
+        // Display the file name without the extension
+        var fileNameWithoutExtension =
+          file.name.substr(0, file.name.lastIndexOf(".")) ||
+          file.name;
+
+        songName.textContent =
+          "Song playing: " +
+          fileNameWithoutExtension;
+
+        // Reset the drop zone text
+        dropZone.textContent =
+          "Drop audio file here";
+      }
+
+      function playBuffer(buffer, offset) {
+        source = audioContext.createBufferSource();
+
+        // Create a reversed buffer
+        var reversedBuffer =
+          audioContext.createBuffer(
+            buffer.numberOfChannels,
+            buffer.length,
+            buffer.sampleRate
+          );
+
+        for (
+          var channel = 0;
+          channel <
+          buffer.numberOfChannels;
+          channel++
+        ) {
+          var channelData =
+            buffer.getChannelData(channel);
+          var reversedChannelData =
+            reversedBuffer.getChannelData(channel);
+
+          for (
+            var i = 0;
+            i <
+            channelData.length;
+            i++
+          ) {
+            reversedChannelData[i] =
+              channelData[
+                channelData.length -
+                  i -
+                  1
+              ];
+          }
+        }
+
+        source.buffer = reversedBuffer;
+
+        source.connect(audioContext.destination);
+
+        startTime =
+          audioContext.currentTime -
+          (offset || 0);
+
+        source.start(0, offset || 0);
+      }
+    </script>
+  </body>
+</html>
+```
+
+This updated code adds a `p` element with `id="timer"` to display the current time and total duration of the uploaded audio file. The initial `textContent` of this element is set to `"00:00 / 00:00"` to indicate that no audio file has been uploaded yet.
+
+When a user uploads an audio file and clicks on the play button, the `updateProgressBarAndTimer` function is called. This function uses `setInterval` to repeatedly update both the width of the `#progressBar` element and the `textContent` of the `#timer` element every `100ms`. The new width of the progress bar is calculated based on the current time of the audio playback and the total duration of the audio buffer. The new text of the timer is calculated using a helper function called `formatTime`, which takes a time value in seconds and returns a formatted string in `"MM:SS"` format.
+
+With these changes, users can now see how long an uploaded song is and how much of it has been played. They can also see a timer that displays both the current time and total duration of the song in `"MM:SS"` format.
+
+![](/images/prompt_19.png)
+
+<strong>19 of </strong>
+
+<hr>
+
 </details>
 
 <hr>

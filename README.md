@@ -3302,6 +3302,110 @@ With these changes, the play and pause buttons will take up the full width of th
 
 <hr>
 
+<strong>Prompt 23:</strong><br>
+Now lets add some colour to the project. Use a mix of dark grey, black, navy blue and make all the text on the page white. Do not apply any kind of css colouring to the progressContainer or the progressBar
+
+<strong>Response 23:</strong><br>
+Sure! Here’s the updated HTML and CSS code with the changes you requested:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Hidden Message Player</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #333; /* Set the background color to dark grey */
+        color: #fff; /* Set the text color to white */
+      }
+      #container {
+        width: 70%;
+      }
+      #dropZone {
+        border: 2px dashed #bbb;
+        border-radius: 5px;
+        padding: 35px; /* Increase the vertical padding */
+        text-align: center;
+        font-size: 20px;
+      }
+      #fileInput {
+        margin-top: 10px;
+        padding: 5px;
+      }
+      #songName {
+        margin-top: 10px;
+      }
+      #progressContainer {
+        width: 100%;
+        height: 20px;
+        border: 1px solid #bbb;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+      #progressBar {
+        width: 0%;
+        height: 100%;
+        background-color: #4caf50;
+      }
+      #timer {
+        margin-top: 10px;
+        text-align: center; /* Center the timer */
+      }
+      button {
+        display: block; /* Make the buttons block-level elements */
+        width: 100%; /* Make the buttons take up the full width */
+        margin-top: 10px; /* Add vertical space between the buttons */
+        padding: 15px; /* Increase the vertical padding */
+        text-align: center; /* Center the button text */
+        background-color: #000; /* Set the button background color to black */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+      <h1 style="text-align:center;">The Hidden Message Player</h1> <!-- Center the heading -->
+      <div id="dropZone">Drop audio file here</div>
+      <input type="file" id="fileInput" accept="audio/*" />
+      <br />
+      <button id="playButton" disabled>Play</button>
+      <button id="pauseButton" disabled>Pause</button>
+      <p id="songName"></p>
+      <div id="progressContainer">
+        <div id="progressBar"></div>
+      </div>
+      <p id="timer">00:00 / 00:00</p>
+    </div>
+
+    <!-- JavaScript code omitted for brevity -->
+  </body>
+</html>
+
+```
+
+This updated HTML and CSS code makes the following changes:
+
+1. The body element is given a background-color property of `#333` to set its background color to dark grey. It is also given a color property of `#fff` to set its text color to white.
+2. The button elements are given a background-color property of `#000` to set their background color to black.
+
+With these changes, the page will have a dark grey background and all of its text will be white. The play and pause buttons will have a black background. No changes were made to the #progressContainer or #progressBar elements as per your request.
+
+![](/images/prompt_23.png)
+
+<strong>23 of </strong>
+
+<hr>
+
+
+
+
 <details>
 <summary>10. Project summary</summary>
 <br>

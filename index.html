@@ -17,9 +17,14 @@
 <body>
   <h1>Reverse Audio Player</h1>
   <div id="dropZone">Drop audio file here</div>
+  <br />
+  <button id="playButton" disabled>Play</button>
+  <button id="pauseButton" disabled>Pause</button>
 
   <script>
     var dropZone = document.getElementById("dropZone");
+    var playButton = document.getElementById("playButton");
+    var pauseButton = document.getElementById("pauseButton");
 
     var audioContext = new AudioContext();
     var source;
@@ -57,6 +62,9 @@
       };
 
       reader.readAsArrayBuffer(file);
+
+      playButton.disabled = false;
+      pauseButton.disabled = false;
     });
 
     document.addEventListener("dragover", function (e) {
@@ -65,6 +73,20 @@
 
     document.addEventListener("drop", function (e) {
       e.preventDefault();
+    });
+
+    playButton.addEventListener("click", function () {
+      if (source) {
+        source.stop();
+        playBuffer(buffer);
+      }
+    });
+
+    pauseButton.addEventListener("click", function () {
+      if (source) {
+        source.stop();
+        source = null;
+      }
     });
 
     function playBuffer(buffer) {

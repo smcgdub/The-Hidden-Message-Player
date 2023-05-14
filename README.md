@@ -773,7 +773,148 @@ In this version of the code, the `playBuffer()` function has been updated to cre
 Please let me know if this version of the code works for you.
 <strong>9 of </strong>
 
+<hr>
 
+<strong>Prompt 10:</strong><br>
+That’s is working now. Can you create a play and pause button for me. The way the code is now the audio file begins to play as soon as the file is dropped into the drop zone, keep this functionality. But i want a pause button so a user can pause the song, and I want a play button so they can restart the song. You can create these under the drop zone
+
+<strong>Response 10:</strong><br>
+Sure! Here’s an updated version of the code that adds play and pause buttons below the drop zone:
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Reverse Audio Player</title>
+  <style>
+    #dropZone {
+      border: 2px dashed #bbb;
+      border-radius: 5px;
+      padding: 25px;
+      text-align: center;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Reverse Audio Player</h1>
+  <div id="dropZone">Drop audio file here</div>
+  <br />
+  <button id="playButton" disabled>Play</button>
+  <button id="pauseButton" disabled>Pause</button>
+
+  <script>
+    var dropZone = document.getElementById("dropZone");
+    var playButton = document.getElementById("playButton");
+    var pauseButton = document.getElementById("pauseButton");
+
+    var audioContext = new AudioContext();
+    var source;
+    var buffer;
+
+    dropZone.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "#eee";
+    });
+
+    dropZone.addEventListener("dragleave", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "";
+    });
+
+    dropZone.addEventListener("drop", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "";
+
+      if (source) {
+        source.stop();
+      }
+
+      var file = e.dataTransfer.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        audioContext.decodeAudioData(e.target.result, function (decodedData) {
+          buffer = decodedData;
+          playBuffer(buffer);
+        });
+      };
+
+      reader.readAsArrayBuffer(file);
+
+      playButton.disabled = false;
+      pauseButton.disabled = false;
+    });
+
+    document.addEventListener("dragover", function (e) {
+      e.preventDefault();
+    });
+
+    document.addEventListener("drop", function (e) {
+      e.preventDefault();
+    });
+
+    playButton.addEventListener("click", function () {
+      if (source) {
+        source.stop();
+        playBuffer(buffer);
+      }
+    });
+
+    pauseButton.addEventListener("click", function () {
+      if (source) {
+        source.stop();
+        source = null;
+      }
+    });
+
+    function playBuffer(buffer) {
+      source = audioContext.createBufferSource();
+
+      // Create a reversed buffer
+      var reversedBuffer = audioContext.createBuffer(buffer.numberOfChannels, buffer.length, buffer.sampleRate);
+
+      for (var channel = 0; channel < buffer.numberOfChannels; channel++) {
+        var channelData = buffer.getChannelData(channel);
+        var reversedChannelData = reversedBuffer.getChannelData(channel);
+
+        for (var i = 0; i < channelData.length; i++) {
+          reversedChannelData[i] = channelData[channelData.length - i - 1];
+        }
+      }
+
+      source.buffer = reversedBuffer;
+
+      source.connect(audioContext.destination);
+
+      source.start(0);
+    }
+  </script>
+</body>
+
+</html>
+```
+
+In this version of the code, two `button` elements are added below the drop zone. The `playButton` and `pauseButton` variables are used to reference these elements in the JavaScript code. Event listeners are added to the `click` event for each button to handle user interaction.
+
+![](/images/prompt_10.1.png)
+<em>Button disabled when no song is loaded</em>
+
+When the `playButton` is clicked, the `click` event is triggered and the `stop()` method is called on the `source` object to stop playback of the current audio data. The `playBuffer()` function is then called with the `buffer` object to start playback of the audio data again.
+
+When the `pauseButton` is clicked, the `click` event is triggered and the `stop()` method is called on the `source` object to stop playback of the current audio data. The `source` variable is then set to `null` to indicate that playback has been paused.
+
+![](/images/prompt_10.2.png)
+<em>Button enabled when song is loaded</em>
+
+
+Please let me know if this version of the code meets your needs.<br>
+<strong>10 of </strong>
 
 
 </details>

@@ -3191,6 +3191,112 @@ With these changes, the heading text will be updated, the play and pause buttons
 <hr>
 
 <strong>Prompt 22:</strong><br>
+Can you make the following adjustments:
+
+1. I want the play and pause buttons to be 100% width
+2. Increase the vertical padding in the play and pause buttons
+3. I want the text that says play and pause on the play and pause buttons to be centered on all screen sizes
+4. Add more vertical padding to the dropZone
+5. Centre the <h1> no matter what the screen size
+6. Center the timer so its centered on all screen sizes 
+
+ Again just return the html and css code, no need to re write the javascript  as its not being adjusted
+
+<strong>Response 22:</strong><br>
+Sure! Here’s the updated HTML and CSS code with the changes you requested:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Hidden Message Player</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      #container {
+        width: 70%;
+      }
+      #dropZone {
+        border: 2px dashed #bbb;
+        border-radius: 5px;
+        padding: 35px; /* Increase the vertical padding */
+        text-align: center;
+        font-size: 20px;
+      }
+      #fileInput {
+        margin-top: 10px;
+        padding: 5px;
+      }
+      #songName {
+        margin-top: 10px;
+      }
+      #progressContainer {
+        width: 100%;
+        height: 20px;
+        border: 1px solid #bbb;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+      #progressBar {
+        width: 0%;
+        height: 100%;
+        background-color: #4caf50;
+      }
+      #timer {
+        margin-top: 10px;
+        text-align: center; /* Center the timer */
+      }
+      button {
+        display: block; /* Make the buttons block-level elements */
+        width: 100%; /* Make the buttons take up the full width */
+        margin-top: 10px; /* Add vertical space between the buttons */
+        padding: 15px; /* Increase the vertical padding */
+        text-align: center; /* Center the button text */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+      <h1 style="text-align:center;">The Hidden Message Player</h1> <!-- Center the heading -->
+      <div id="dropZone">Drop audio file here</div>
+      <input type="file" id="fileInput" accept="audio/*" />
+      <br />
+      <button id="playButton" disabled>Play</button>
+      <button id="pauseButton" disabled>Pause</button>
+      <p id="songName"></p>
+      <div id="progressContainer">
+        <div id="progressBar"></div>
+      </div>
+      <p id="timer">00:00 / 00:00</p>
+    </div>
+
+    <!-- JavaScript code omitted for brevity -->
+  </body>
+</html>
+```
+
+This updated HTML and CSS code makes the following changes:
+
+1. The `button` elements are given a `width` property of `100%` to make them take up the full width of their parent container.
+2. The `padding` property of the `button` elements is changed from `5px` to `15px` to increase their vertical padding.
+3. The `text-align` property of the `button` elements is set to `center` to center their text.
+4. The `padding` property of the `#dropZone` element is changed from `25px` to `35px` to increase its vertical padding.
+5. The `h1` element is given an inline `style` attribute with a `text-align` property set to `center` to center its text.
+6. The `#timer` element is given a `text-align` property of center to center its text.
+
+With these changes, the play and pause buttons will take up the full width of their parent container and will have more vertical padding. Their text will also be centered. The drop zone will have more vertical padding, and both the heading and timer will be centered.
+
+![](/images/prompt_22.png)
+
+<strong>22 of </strong>
 
 </details>
 

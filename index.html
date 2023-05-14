@@ -2,9 +2,6 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Hidden Message Player</title>
   <style>
     body {
@@ -23,7 +20,8 @@
     #dropZone {
       border: 2px dashed #bbb;
       border-radius: 5px;
-      padding: 25px;
+      padding: 35px;
+      /* Increase the vertical padding */
       text-align: center;
       font-size: 20px;
     }
@@ -54,22 +52,28 @@
 
     #timer {
       margin-top: 10px;
+      text-align: center;
+      /* Center the timer */
     }
 
     button {
       display: block;
       /* Make the buttons block-level elements */
+      width: 100%;
+      /* Make the buttons take up the full width */
       margin-top: 10px;
       /* Add vertical space between the buttons */
-      padding: 5px;
-      /* Add padding to the buttons */
+      padding: 15px;
+      /* Increase the vertical padding */
+      text-align: center;
+      /* Center the button text */
     }
   </style>
 </head>
 
 <body>
   <div id="container">
-    <h1>The Hidden Message Player</h1> <!-- Change the heading text -->
+    <h1 style="text-align:center;">The Hidden Message Player</h1> <!-- Center the heading -->
     <div id="dropZone">Drop audio file here</div>
     <input type="file" id="fileInput" accept="audio/*" />
     <br />

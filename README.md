@@ -364,10 +364,72 @@ This code creates a `div` element with the id `dropZone` that serves as the drop
 ![](/images/prompt_2.png)
 <strong>2 of</strong>
 
+<strong>Prompt 3:</strong><br>
+If the user drags a song/audio file outside of the dropZone area then a new tab opens on the browser and the song starts playing there. I want you to add some code so this doesn’t happen. If the user drags and drops a file outside of the dropZone I want nothing to happen. Can you add this functionality to the code
 
+<strong>Response 3:</strong><br>
+Sure! You can prevent the default behaviour of opening a new tab when a file is dropped outside of the drop zone by adding an event listener for the `dragover` event on the `document` object and calling the `preventDefault()` method on the event object. Here’s an example of how you can do this:
 
+```html
+<!DOCTYPE html>
+<html>
 
+<head>
+  <title>Audio Player</title>
+  <style>
+    #dropZone {
+      border: 2px dashed #bbb;
+      border-radius: 5px;
+      padding: 25px;
+      text-align: center;
+      font-size: 20px;
+    }
+  </style>
+</head>
 
+<body>
+  <h1>Audio Player</h1>
+  <div id="dropZone">Drop audio file here</div>
+  <br />
+  <audio id="audioPlayer" controls></audio>
+
+  <script>
+    var dropZone = document.getElementById("dropZone");
+    var audioPlayer = document.getElementById("audioPlayer");
+
+    dropZone.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "#eee";
+    });
+
+    dropZone.addEventListener("dragleave", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "";
+    });
+
+    dropZone.addEventListener("drop", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "";
+
+      var file = e.dataTransfer.files[0];
+      audioPlayer.src = URL.createObjectURL(file);
+      audioPlayer.play();
+    });
+
+    document.addEventListener("dragover", function (e) {
+      e.preventDefault();
+    });
+  </script>
+</body>
+
+</html>
+```
+
+In this example, an event listener for the `dragover` event is added to the `document` object. When a file is dragged over any part of the page, including outside of the drop zone, the `dragover` event is triggered and the `preventDefault()` method is called on the event object to prevent the default behaviour of opening a new tab.
+Is this what you were looking for?
 
 
 </details>

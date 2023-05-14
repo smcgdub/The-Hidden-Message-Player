@@ -632,6 +632,20 @@ The `ArrayBuffer` is then passed to the `decodeAudioData()` method of the `Audio
 Is this what you were looking for?
 <strong>6 of </strong>
 
+<strong>Prompt 7:</strong><br>
+I tried to drag an audio file into the `dropZone` but nothing happened? I could not hear the song play?
+
+<strong>Response 7:</strong><br>
+I’m sorry to hear that the code didn’t work for you. There could be several reasons why the audio file is not playing when you drop it onto the drop zone. Here are a few things you can check:
+
+1. Make sure that your browser supports the Web Audio API. You can check this by visiting [Can I use and searching for “Web Audio API”](https://caniuse.com/audio-api).
+2.	Make sure that the audio file you are trying to play is in a format that is supported by your browser. You can check which audio formats are supported by your browser by visiting [HTML5Test](https://html5test.com/) and looking under the “Audio” section.
+3.	Check the developer console in your browser for any error messages. To open the developer console, right-click on the page and select “Inspect” (or “Inspect Element” in some browsers), then click on the “Console” tab.
+
+
+If you’re still having trouble, please let me know and I’ll do my best to help you troubleshoot the issue.
+<strong>7 of </strong>
+
 
 
 

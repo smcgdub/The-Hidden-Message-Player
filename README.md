@@ -296,10 +296,79 @@ This code creates an input element that allows the user to select an audio file 
 
 ![](images/prompt_1.png)
 
-Is this what you were looking for?
-1 of 
+Is this what you were looking for?<br>
+<strong>1 of</strong> 
 
 <strong>Prompt 2:</strong><br>
+Can you create a drop zone located above the input. I want it to tell the user to drop their audio file / song into this box for the song to play
+
+<strong>Response 2:</strong><br>
+Sure! Here’s an example of how you can create a drop zone for audio files using HTML5 and JavaScript:
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Audio Player</title>
+  <style>
+    #dropZone {
+      border: 2px dashed #bbb;
+      border-radius: 5px;
+      padding: 25px;
+      text-align: center;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Audio Player</h1>
+  <div id="dropZone">Drop audio file here</div>
+  <br />
+  <audio id="audioPlayer" controls></audio>
+
+  <script>
+    var dropZone = document.getElementById("dropZone");
+    var audioPlayer = document.getElementById("audioPlayer");
+
+    dropZone.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "#eee";
+    });
+
+    dropZone.addEventListener("dragleave", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "";
+    });
+
+    dropZone.addEventListener("drop", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.style.background = "";
+
+      var file = e.dataTransfer.files[0];
+      audioPlayer.src = URL.createObjectURL(file);
+      audioPlayer.play();
+    });
+  </script>
+</body>
+
+</html>
+```
+
+This code creates a `div` element with the id `dropZone` that serves as the drop zone for audio files. The `dragover` and `dragleave` events are used to change the background color of the drop zone when a file is being dragged over it. When a file is dropped onto the drop zone, the `drop` event is triggered and the selected file is loaded into the audio element using the `URL.createObjectURL()` method. The `play()` method is then called on the audio element to start playing the selected file.
+
+![](/images/prompt_2.png)
+<strong>2 of</strong>
+
+
+
+
+
+
 
 </details>
 <hr>

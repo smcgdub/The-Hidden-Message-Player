@@ -3403,7 +3403,126 @@ With these changes, the page will have a dark grey background and all of its tex
 
 <hr>
 
+<strong>Prompt 24:</strong><br>
+Ok, a few more changes:
 
+1. In the button css, add the property color: #fff
+2. Add a hover effect to the buttons so when the user hovers over them they change colour. I want the background colour of the button to become #fff and i want the text to become #000
+
+Only give me the html and css, no need for the javascript as its unchanged
+
+<strong>Response 24:</strong><br>
+Sure! Here’s the updated HTML and CSS code with the changes you requested:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Hidden Message Player</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #333; /* Set the background color to dark grey */
+        color: #fff; /* Set the text color to white */
+      }
+      #container {
+        width: 70%;
+      }
+      #dropZone {
+        border: 2px dashed #bbb;
+        border-radius: 5px;
+        padding: 35px; /* Increase the vertical padding */
+        text-align: center;
+        font-size: 20px;
+      }
+      #fileInput {
+        margin-top: 10px;
+        padding: 5px;
+      }
+      #songName {
+        margin-top: 10px;
+      }
+      #progressContainer {
+        width: 100%;
+        height: 20px;
+        border: 1px solid #bbb;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+      #progressBar {
+        width: 0%;
+        height: 100%;
+        background-color: #4caf50;
+      }
+      #timer {
+        margin-top: 10px;
+        text-align: center; /* Center the timer */
+      }
+      button {
+        display: block; /* Make the buttons block-level elements */
+        width: 100%; /* Make the buttons take up the full width */
+        margin-top: 10px; /* Add vertical space between the buttons */
+        padding: 15px; /* Increase the vertical padding */
+        text-align: center; /* Center the button text */
+        background-color: #000; /* Set the button background color to black */
+        color:#fff; /* Set the button text color to white */
+      }
+      button:hover {
+          background-color:#fff; /* Change the button background color to white on hover */
+          color:#000; /* Change the button text color to black on hover */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+      <h1 style="text-align:center;">The Hidden Message Player</h1> <!-- Center the heading -->
+      <div id="dropZone">Drop audio file here</div>
+      <input type="file" id="fileInput" accept="audio/*" />
+      <br />
+      <button id="playButton" disabled>Play</button>
+      <button id="pauseButton" disabled>Pause</button>
+      <p id="songName"></p>
+      <div id="progressContainer">
+        <div id="progressBar"></div>
+      </div>
+      <p id="timer">00:00 / 00:00</p>
+    </div>
+
+    <!-- JavaScript code omitted for brevity -->
+  </body>
+</html>
+```
+
+This updated HTML and CSS code makes the following changes:
+
+1. The `button` elements are given a `color` property of `#fff` to set their text color to white.
+2. A `button:hover` selector is added to change the `background-color` and `color` properties of the `button` elements when they are hovered over. When a user hovers over a button, its background color will change to white and its text color will change to black.
+
+With these changes, the play and pause buttons will have white text and will change their background and text colors when hovered over.
+
+![](/images/prompt_24.png)
+
+<strong>24 of </strong>
+
+<hr>
+
+<strong>Manual Code Adjustments</strong><br>
+
+At this point in the project i took over the remaining CSS i wanted ot add. The remaining items i wanted ot change were small and i am able to do these changes myself far quicker than prompting and copy and pasting the response. 
+
+The main changes i made were:
+
+1. Add the CSS and Javascript to their respective files so they code isn't all on one html page.
+2. Added the google font for the project
+3. Adjusted the CSS on the input so it matched the rest of the project and didn't have the standard Choose file button
+4. Added comments to the code where necessary 
 
 
 <details>

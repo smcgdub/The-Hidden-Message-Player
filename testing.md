@@ -23,3 +23,13 @@
 
 * The testing for the app.js file was carried out on [JShint.com](https://jshint.com/) 
 * The Javascript came back with zero errors in the code. 
+
+**Console Testing**
+
+I also checked the dev tools console in Google Chrome when running the page on the live site. There were no errors but there was 1 warning error which said: 
+
+<strong>"The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page."</strong> 
+
+![](images/console_warning.png)
+
+I researched this error and found that it is a common error when using the AudioContext API. It is not an error that will affect the functionality of the app. I have noted it here for future reference but for now as it does not affect the functionality I will leave it as it is.

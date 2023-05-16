@@ -4,15 +4,20 @@
 <hr>
 
 ## **Introduction** ##
-I recently completed a personal project called the 33 RPM Player. That project was an audio player where users could upload any song and hear it played back at 33rpm, just like on a record player. The links to that project can be found here:<br>
+I recently completed a personal project called the 33 RPM Player. That project was an audio player where users could upload any song they like and hear it played back at 33rpm, just like on a record player. The links to that project can be found here:
+
 [View Player](https://smcgdub.github.io/the_33rpm_player/)<br>
 [View Code & Github Repository](https://github.com/smcgdub/the_33rpm_player) 
 
-After i published the project a few people said my next project should be a player that plays songs in reverse. Urban legend is that some songs have hidden messages in them that are only audible when the song is played in reverse. 
+After i published the project a few people said my next project should be a player that plays songs in reverse. Urban legend is that some songs have hidden messages in them that are only able to be heard when the song is played in reverse. 
 
-I thought it would be an interesting project to do so hence the inspiration for this project. 
+I thought it would be a pretty interesting project to do so hence the inspiration for this project. 
 
-This is also the 2nd project that i have built using nothing more than prompts from Bing chat which is powered by ChatGPT 4. The full conversation with bing chat and all of the prompts, replies and code generated can be found in section 9 of this document. My summary on the project can be read in section 10.
+This is also the 2nd project that i have built using nothing more than prompts from Bing chat which is powered by ChatGPT 4. 
+
+This project was not about building a new technology. It was about seeing how i could build a simple project using nothing more than prompts on Bing chat with little or no coding from me as the developer.
+
+The full conversation with bing chat and all of the prompts, replies and code generated can be found in section 9 of this document. My summary on the project can be read in section 10.
 <hr>
 
 <details>
@@ -123,7 +128,7 @@ Users will be able to press play if they have paused the song to resume it playi
 
 ### **2.4 - The pause button** ###
 
-Users will be able to pause the song at any point by pressing the pause button. .
+Users will be able to pause the song at any point by pressing the pause button.
 
 ### **2.5 - Progress bar** ###
 
@@ -153,7 +158,7 @@ If the user tries to upload a file that is not an audio file they will be presen
 * 3.3 - HTML5
 * 3.4 - CSS
 * 3.5 - JavaScript
-* 3.6 - Favicon
+* 3.6 - Favicon generator
 
 </details>
 <hr>
@@ -297,7 +302,7 @@ This code creates an input element that allows the user to select an audio file 
 ![](images/prompt_1.png)
 
 Is this what you were looking for?<br>
-<strong>1 of</strong> 
+<strong>1 of 24</strong> 
 
 <hr>
 
@@ -364,7 +369,7 @@ Sure! Here’s an example of how you can create a drop zone for audio files usin
 This code creates a `div` element with the id `dropZone` that serves as the drop zone for audio files. The `dragover` and `dragleave` events are used to change the background color of the drop zone when a file is being dragged over it. When a file is dropped onto the drop zone, the `drop` event is triggered and the selected file is loaded into the audio element using the `URL.createObjectURL()` method. The `play()` method is then called on the audio element to start playing the selected file.
 
 ![](/images/prompt_2.png)
-<strong>2 of</strong>
+<strong>2 of 24</strong>
 
 <hr>
 
@@ -435,7 +440,7 @@ Sure! You can prevent the default behaviour of opening a new tab when a file is 
 In this example, an event listener for the `dragover` event is added to the `document` object. When a file is dragged over any part of the page, including outside of the drop zone, the `dragover` event is triggered and the `preventDefault()` method is called on the event object to prevent the default behaviour of opening a new tab.
 
 Is this what you were looking for?
-<strong>3 of </strong>
+<strong>3 of 24</strong>
 
 <hr>
 
@@ -513,7 +518,7 @@ In this example, event listeners for the `dragover` and `drop` events are added 
 Similarly, when a file is dropped outside of the drop zone, the `drop` event is triggered and the `preventDefault()` method is called on the event object to prevent the default behaviour.
 
 Is this what you were looking for?<br>
-<strong>4 of </strong>
+<strong>4 of 24</strong>
 
 <hr>
 
@@ -536,7 +541,7 @@ Learn more:
 [1. recordplayerreview.com2. reddit.com3. makeuseof.com4. movavi.com](https://www.movavi.com/best-video-reverse-software.html)
 
 Is there anything else you would like to know?<br>
-<strong>5 of </strong>
+<strong>5 of 24</strong>
 
 <hr>
 
@@ -637,7 +642,7 @@ The `ArrayBuffer` is then passed to the `decodeAudioData()` method of the `Audio
 ![](/images/prompt_6.png)
 
 Is this what you were looking for?
-<strong>6 of </strong>
+<strong>6 of 24</strong>
 
 <hr>
 
@@ -652,7 +657,7 @@ I’m sorry to hear that the code didn’t work for you. There could be several 
 3.	Check the developer console in your browser for any error messages. To open the developer console, right-click on the page and select “Inspect” (or “Inspect Element” in some browsers), then click on the “Console” tab.
 
 If you’re still having trouble, please let me know and I’ll do my best to help you troubleshoot the issue.<br>
-<strong>7 of </strong>
+<strong>7 of 24</strong>
 
 <hr>
 
@@ -661,7 +666,7 @@ I think it’s the code that needs adjusting.
 
 <strong>Response 8:</strong><br>
 It’s possible that the code needs to be adjusted to work properly in your specific environment. Could you please provide more information about the issue you’re experiencing? Are there any error messages in the developer console? What browser and operating system are you using? This information will help me better understand the issue and provide a more accurate solution.
-<strong>8 of </strong>
+<strong>8 of 24</strong>
 
 <hr>
 
@@ -771,7 +776,7 @@ I apologize for any confusion. Here is an updated version of the code that shoul
 In this version of the code, the `playBuffer()` function has been updated to create a new `AudioBuffer` object that contains the reversed audio data. This is done by iterating over each channel of the original `AudioBuffer` object and copying its data into a new `Float32Array` in reverse order. The new `Float32Array` is then set as the channel data for the corresponding channel in the new `AudioBuffer` object. The new `AudioBuffer` object is then assigned to the `buffer` property of the `BufferSourceNode` and played as before.
 
 Please let me know if this version of the code works for you.
-<strong>9 of </strong>
+<strong>9 of 24</strong>
 
 <hr>
 
@@ -914,7 +919,7 @@ When the `pauseButton` is clicked, the `click` event is triggered and the `stop(
 
 
 Please let me know if this version of the code meets your needs.<br>
-<strong>10 of </strong>
+<strong>10 of 24</strong>
 
 <hr>
 
@@ -1063,7 +1068,7 @@ When a file is dropped onto the drop zone and playback starts, the `startTime` v
 When the `playButton` is clicked and playback is resumed, the `playBuffer()` function is called with the `buffer` object and the value of the `pauseTime` variable as arguments. The `playBuffer()` function has been updated to accept an optional `offset` argument that specifies the starting position for playback. When this argument is provided, it is passed to the `start()` method of the `BufferSourceNode` to start playback from that position.
 
 Please let me know if this version of the code meets your needs.<br>
-<strong>11 of </strong>
+<strong>11 of 24</strong>
 
 <hr>
 
@@ -1248,7 +1253,7 @@ This updated code centers all elements on the page both horizontally and vertica
 
 ![](/images/prompt_12.png)
 
-<strong>12 of </strong>
+<strong>12 of 24</strong>
 
 <hr>
 
@@ -1270,6 +1275,8 @@ The `input` element with `type="file"` and `id="uploadButton"` is used to create
 This media query sets the display property of the `#uploadButton` element to `block` on devices that don’t support hover, such as mobile devices. This means that the upload button should be visible on mobile devices.
 
 If you’re testing this on a desktop or laptop computer, you may not see the upload button because it is set to `display: none;`. To see the upload button on a desktop or laptop computer, you can either remove the `display: none;` property from the `#uploadButton` element in the CSS or use your browser’s developer tools to simulate a mobile device.
+
+<strong>13 of 24</strong>
 
 <hr>
 
@@ -1448,7 +1455,8 @@ This updated code centers all elements on the page both horizontally and vertica
 
 ![](/images/prompt_14.png)
 
-<strong>14 of </strong>
+<strong>14 of 24</strong>
+
 <hr>
 
 <strong>Prompt 15:</strong><br>
@@ -1659,7 +1667,7 @@ This way, when a user uploads an audio file, they will see the text “Song play
 
 ![](/images/prompt_15.png)
 
-<strong>15 of</strong>
+<strong>15 of 24</strong>
 
 <hr>
 
@@ -1882,7 +1890,7 @@ This way, if a user tries to drag a non-audio file into the drop zone, they will
 
 ![](/images/prompt_16.png)
 
-<strong>16 of </strong>
+<strong>16 of 24</strong>
 
 <hr>
 
@@ -2264,7 +2272,7 @@ With these changes, users can now see how long an uploaded song is and at what p
 
 ![](/images/prompt_17.png)
 
-<strong>17 of </strong>
+<strong>17 of 24</strong>
 
 <hr>
 
@@ -2313,7 +2321,7 @@ With these changes, when a user uploads an audio file, the song will start playi
 
 ![](/images/prompt_18.png)
 
-<strong>18 of </strong>
+<strong>18 of 24</strong>
 
 <hr>
 
@@ -2694,7 +2702,7 @@ With these changes, users can now see how long an uploaded song is and how much 
 
 ![](/images/prompt_19.png)
 
-<strong>19 of </strong>
+<strong>19 of 24</strong>
 
 <hr>
 
@@ -3085,6 +3093,8 @@ The updated code also adds a `margin-top` property to the `button` elements in t
 
 With these changes, all of the elements on the page will take up `70%` of the width of the page and there will be some vertical space between the play and pause buttons. These changes will work on both desktop and mobile devices.
 
+<strong>20 of 24</strong>
+
 <hr>
 
 <strong>Prompt 21:</strong><br>
@@ -3186,7 +3196,7 @@ With these changes, the heading text will be updated, the play and pause buttons
 
 ![](/images/prompt_21.png)
 
-<strong>21 of </strong>
+<strong>21 of 24</strong>
 
 <hr>
 
@@ -3296,9 +3306,7 @@ With these changes, the play and pause buttons will take up the full width of th
 
 ![](/images/prompt_22.png)
 
-<strong>22 of </strong>
-
-</details>
+<strong>22 of 24</strong>
 
 <hr>
 
@@ -3399,7 +3407,7 @@ With these changes, the page will have a dark grey background and all of its tex
 
 ![](/images/prompt_23.png)
 
-<strong>23 of </strong>
+<strong>23 of 24</strong>
 
 <hr>
 
@@ -3509,7 +3517,7 @@ With these changes, the play and pause buttons will have white text and will cha
 
 ![](/images/prompt_24.png)
 
-<strong>24 of </strong>
+<strong>24 of 24</strong>
 
 <hr>
 
@@ -3524,24 +3532,37 @@ The main changes i made were:
 3. Adjusted the CSS on the input so it matched the rest of the project and didn't have the standard Choose file button
 4. Added comments to the code where necessary 
 
+</details>
+
+<hr>
 
 <details>
+
 <summary>10. Project summary</summary>
 <br>
 
 <strong>Functionality</strong><br>
+The players functionality does exactly what it is supposed to do. Some of the code that was generated did need a second prompt to get it right, but in the end the functionality that i wanted is all there. 
 
 <strong>Design and aesthetics</strong><br>
-
+As with the design of the 33rpm player, i think that creative design and CSS is probably the weak point of ChatGPT. I have no doubt that as time goes by and these AI's develop this will improve, but for now out of the HTML, CSS and Javascript, i feel the CSS is the weakest link in the chain. This is only my 2nd small project with ChatGPT4 so for my next project i might just focus on something with a lot of creative design and not limit my prompts to see how creative the AI can be.
 
 <strong>Development time</strong><br>
+This took a lot longer than i thought it was going to be. In the real world everyone understands when you say put a record on a record player and play it in reverse. Explaining that functionality to an AI isn't that simple, also i was unaware that the standard HTML5 player didn't have the functionality to play songs in reverse, so there was a lot more Javascript involved in this project than i thought there would be.   
 
 <strong>Code summary</strong><br>
-<strong>HTML:</strong> <br>
-<strong>CSS:</strong> <br>
-<strong>Javascript:</strong> <br>
-<strong>Total lines of code:</strong> 
+<strong>HTML:</strong> 44 Lines of code<br>
+<strong>CSS:</strong> 109 Lines of code<br>
+<strong>Javascript:</strong> 294 Lines of code<br>
+<strong>Total lines of code:</strong> 447 Lines of code<br> 
 
 <strong>Final thoughts</strong><br>
+Although this turned out to be a more complex project than the 33 RPM player, it does again reinforce how someone with little or no coding experience can take a simple idea and turn it into a fully functioning real world project with no errors in a relatively short space of time.
+
+In the world of business you will often hear people say "You need to ask the right questions"! I have learned in these 2 small ChatGPT projects that the same rule applies. The quality of your responses and development all depend on you being able to ask the right questions/prompts.
+
+Anyone who has worked in sales will tell you about "KISS" (Keep It Simple Stupid) Using ChatGPT is the same. The more detailed your prompts are the more likely you are to get a response that is the one you wanted. Don't try and be overly complicated with your prompts, keep them simple and to the point.
+
+One last thing to note is when i was playing with ChatGPT i asked it to do 6 separate pieces of code in 1 prompt, it definitely struggled with this and half way through the reply the code turned into complete gibberish. I found that the more prompts i used the better the responses were. So if you are working on a project and you want to add a lot of functionality, break it down into smaller pieces and use multiple prompts.
 </details>
 
